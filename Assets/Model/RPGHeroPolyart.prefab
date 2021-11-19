@@ -2222,7 +2222,7 @@ GameObject:
   - component: {fileID: 8067314749199957198}
   - component: {fileID: 7971482898358105655}
   - component: {fileID: 7971482898358105654}
-  - component: {fileID: 7971482898358105659}
+  - component: {fileID: 1456159141289767053}
   m_Layer: 0
   m_Name: RPGHeroPolyart
   m_TagString: Untagged
@@ -2295,7 +2295,7 @@ CapsuleCollider:
   m_Height: 2.03
   m_Direction: 1
   m_Center: {x: 0, y: 0.99, z: 0}
---- !u!114 &7971482898358105659
+--- !u!114 &1456159141289767053
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2304,11 +2304,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 7973307358779964746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 496352f3a2cdaf14499e6df6865143eb, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fb46fe7378ab4baea3ca7b8e3c42b8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 8067314749199957198}
-  _collider: {fileID: 7971482898358105656}
+  _meshRender: {fileID: 8018408649905451966}
+  _redMaterial: {fileID: 2100000, guid: 92b7761d56e3bc54a9d835c7b39690de, type: 2}
+  _greenMaterial: {fileID: 2100000, guid: 4ff977f107e2ffb40a708ee6e7549889, type: 2}
+  _blueMaterial: {fileID: 2100000, guid: 3515c17d2cfdd6347add8e53594d73a2, type: 2}
 --- !u!1 &7973312293858233878
 GameObject:
   m_ObjectHideFlags: 0

@@ -2721,6 +2721,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1010354911}
   - component: {fileID: 1010354913}
+  - component: {fileID: 1010354912}
   m_Layer: 0
   m_Name: Gate_Red
   m_TagString: Untagged
@@ -2744,6 +2745,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1010354912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010354910}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96740befd016405e94c72e1ede85083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _armyType: 0
+  _unitPrefab: {fileID: 7973307358779964746, guid: 1be16647de1030a4c95a6925ba05db92,
+    type: 3}
+  _centerObject: {fileID: 1867097315}
 --- !u!65 &1010354913
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4295,6 +4312,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1617742198}
   - component: {fileID: 1617742200}
+  - component: {fileID: 1617742199}
   m_Layer: 0
   m_Name: Gate_Blue
   m_TagString: Untagged
@@ -4318,6 +4336,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &1617742199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1617742197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96740befd016405e94c72e1ede85083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _armyType: 2
+  _unitPrefab: {fileID: 7973307358779964746, guid: 1be16647de1030a4c95a6925ba05db92,
+    type: 3}
+  _centerObject: {fileID: 1867097315}
 --- !u!65 &1617742200
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5064,32 +5098,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_MoveRepeatDelay: 0.5
-  m_MoveRepeatRate: 0.1
-  m_ActionsAsset: {fileID: -944628639613478452, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_PointAction: {fileID: 1054132383583890850, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_MoveAction: {fileID: 3710738434707379630, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_SubmitAction: {fileID: 2064916234097673511, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_CancelAction: {fileID: -1967631576421560919, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_LeftClickAction: {fileID: 8056856818456041789, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_MiddleClickAction: {fileID: 3279352641294131588, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_RightClickAction: {fileID: 3837173908680883260, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_ScrollWheelAction: {fileID: 4502412055082496612, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_TrackedDevicePositionAction: {fileID: 4754684134866288074, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 1025543830046995696, guid: ca9f5fa95ffab41fb9a615ab714db018,
-    type: 3}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
 --- !u!114 &1893807191
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5510,6 +5518,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2096191718}
   - component: {fileID: 2096191720}
+  - component: {fileID: 2096191719}
   m_Layer: 0
   m_Name: Gate_Green
   m_TagString: Untagged
@@ -5533,6 +5542,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &2096191719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096191717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a96740befd016405e94c72e1ede85083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _armyType: 1
+  _unitPrefab: {fileID: 7973307358779964746, guid: 1be16647de1030a4c95a6925ba05db92,
+    type: 3}
+  _centerObject: {fileID: 1867097315}
 --- !u!65 &2096191720
 BoxCollider:
   m_ObjectHideFlags: 0

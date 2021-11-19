@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Ziggurat
 {
-	[RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(Animator))]
 	public class UnitEnvironment : MonoBehaviour
 	{
 		[SerializeField]
@@ -13,14 +11,13 @@ namespace Ziggurat
 		[SerializeField]
 		private Collider _collider;
 
-
 		/// <summary>
 		/// Событие, вызываемое по окончанию анимации
 		/// </summary>
 		public event EventHandler OnEndAnimation;
 
 		/// <summary>
-		/// Этот метод нужно вызвать/подписать на передвижение в Unit, чтобы подключить анимацию стояния или хотьбы
+		/// Этот метод нужно вызвать/подписать на передвижение в Unit, чтобы подключить анимацию стояния
 		/// </summary>
 		/// <remarks>Если передается 0f - персонаж в Idle анимации, если >0f - персонаж ходит</remarks>
 		public void Moving(float direction)

@@ -1,9 +1,5 @@
 ﻿using RotaryHeart.Lib.SerializableDictionary;
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Ziggurat
 {
 	public enum AnimationType : byte
