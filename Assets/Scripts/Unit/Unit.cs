@@ -22,6 +22,7 @@ namespace Ziggurat
         private Unit _opponent;
         private Transform _defaultMoveTarget;
         private bool _moving = false;
+        private bool _fighting = false;
 
         public void SetData(ArmyType armyType, Transform defaultMoveTarget, IUnitOpponentManager opponentManager)
         {
@@ -51,20 +52,29 @@ namespace Ziggurat
 
         private void Update()
         {
-            if (_moving)
+            if (_moving && !_fighting)
             {
                 var step = _speed * Time.deltaTime;
                 var moveTarget = _opponent != null ? _opponent.transform : _defaultMoveTarget;
                 transform.position = Vector3.MoveTowards(transform.position, moveTarget.position, step);
+            }
 
-                if (_opponent == null)
+            if (_opponent == null)
+            {
+                var distanceToCenter = transform.position - _defaultMoveTarget.transform.position;
+                if (distanceToCenter.magnitude < 25)
                 {
-                    var distanceToCenter = transform.position - moveTarget.position;
-                    if (distanceToCenter.magnitude < 25) {
-                        _opponent = _opponentManager.GetNextOpponentFor(this);
-                        StartMoveTo(_opponent.transform);
-                    }
+                    _opponent = _opponentManager.GetNextOpponentFor(this);
+                    StartMoveTo(_opponent.transform);
                 }
+            }
+            else
+            {
+                var distanceToOpponent = transform.position - _opponent.transform.position;
+                if (distanceToOpponent.magnitude < 1.5)
+                    FastAttack();
+                else
+                    StartMoveTo(_opponent.transform);
             }
         }
 
@@ -79,6 +89,17 @@ namespace Ziggurat
         {
             _moving = false;
             _animator.SetFloat("Movement", 0f);
+        }
+
+        private void FastAttack()
+        {
+            var playingFastAttackAmination = _animator.GetBool("Fast");
+            if (!playingFastAttackAmination)
+            {
+                StopMove();
+                _fighting = true;
+                _animator.SetBool("Fast", true);
+            }
         }
     }
 }
