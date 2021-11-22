@@ -13,6 +13,8 @@ namespace Ziggurat
         [SerializeField]
         private GameObject _unitPrefab;
         [SerializeField]
+        private AllUnitsManager _allUnitsManager;
+        [SerializeField]
         private Transform _centerObject;
 
         private void Start()
@@ -26,8 +28,9 @@ namespace Ziggurat
             {
                 var unitObject = Instantiate(_unitPrefab, transform);
                 unitObject.transform.localPosition = new Vector3(0, 10, 0);
-                unitObject.GetComponent<Unit>().SetData(_armyType, _centerObject);
-                Debug.Log("Create unit: " + _armyType);
+                var unitComponent = unitObject.GetComponent<Unit>();
+                unitComponent.SetData(_armyType, _centerObject, _allUnitsManager);
+                _allUnitsManager.OnCreateUnit(unitComponent);
                 yield return new WaitForSeconds(3);
             }
         }

@@ -15,22 +15,25 @@ namespace Ziggurat
         [SerializeField]
         private Material _blueMaterial;
         [SerializeField, Range(1f, 15f)]
-        private float _speed = 5f;
+        private float _speed;
 
-        private ArmyType _armyType = ArmyType.red;
+        public ArmyType ArmyType { get; private set; } = ArmyType.red;
+        private IUnitOpponentManager _opponentManager;
+        private Unit _opponent;
         private Transform _defaultMoveTarget;
-        private Transform _moveTarget;
         private bool _moving = false;
 
-        public void SetData(ArmyType armyType, Transform defaultMoveTarget)
+        public void SetData(ArmyType armyType, Transform defaultMoveTarget, IUnitOpponentManager opponentManager)
         {
-            _armyType = armyType;
+            _speed = 4f;
+            ArmyType = armyType;
             _defaultMoveTarget = defaultMoveTarget;
+            _opponentManager = opponentManager;
         }
 
         private void Start()
         {
-            switch (_armyType)
+            switch (ArmyType)
             {
                 case ArmyType.red:
                     _meshRender.material = _redMaterial;
@@ -43,7 +46,7 @@ namespace Ziggurat
                     break;
             };
 
-            StartMove(_defaultMoveTarget);
+            StartMoveTo(_defaultMoveTarget);
         }
 
         private void Update()
@@ -51,18 +54,23 @@ namespace Ziggurat
             if (_moving)
             {
                 var step = _speed * Time.deltaTime;
-                var target = _moveTarget != null ? _moveTarget : _defaultMoveTarget;
-                transform.position = Vector3.MoveTowards(transform.position, target.position, step);
+                var moveTarget = _opponent != null ? _opponent.transform : _defaultMoveTarget;
+                transform.position = Vector3.MoveTowards(transform.position, moveTarget.position, step);
 
-                var diff = transform.position - target.position;
-                if (diff.magnitude < 5)
-                    StopMove();
+                if (_opponent == null)
+                {
+                    var distanceToCenter = transform.position - moveTarget.position;
+                    if (distanceToCenter.magnitude < 25) {
+                        _opponent = _opponentManager.GetNextOpponentFor(this);
+                        StartMoveTo(_opponent.transform);
+                    }
+                }
             }
         }
 
-        private void StartMove(Transform direction)
+        private void StartMoveTo(Transform target)
         {
-            transform.LookAt(direction);
+            transform.LookAt(target);
             _moving = true;
             _animator.SetFloat("Movement", 0.5f);
         }
