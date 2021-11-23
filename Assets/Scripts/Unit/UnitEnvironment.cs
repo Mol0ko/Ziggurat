@@ -4,49 +4,78 @@ using UnityEngine;
 namespace Ziggurat
 {
     [RequireComponent(typeof(Animator))]
-	public class UnitEnvironment : MonoBehaviour
-	{
-		[SerializeField]
-		private Animator _animator;
-		[SerializeField]
-		private Collider _collider;
+    public class UnitEnvironment : MonoBehaviour
+    {
+        [SerializeField]
+        private Animator _animator;
+        [SerializeField]
+        private Collider _swordCollider;
 
-		/// <summary>
-		/// Событие, вызываемое по окончанию анимации
-		/// </summary>
-		public event EventHandler OnEndAnimation;
+        /// <summary>
+        /// Событие, вызываемое по окончанию анимации
+        /// </summary>
+        public event EventHandler OnEndAnimation;
 
-		/// <summary>
-		/// Этот метод нужно вызвать/подписать на передвижение в Unit, чтобы подключить анимацию стояния
-		/// </summary>
-		/// <remarks>Если передается 0f - персонаж в Idle анимации, если >0f - персонаж ходит</remarks>
-		public void Moving(float direction)
-		{
-			_animator.SetFloat("Movement", direction);
-		}
+        public void AnimateMoveTo(Transform target)
+        {
+            transform.LookAt(target);
+            _animator.SetFloat("Movement", 0.5f);
+        }
 
-		/// <summary>
-		/// Вызывать для всех прочих, кроме хотьбы анимаций
-		/// </summary>
-		/// <param name="key"></param>
-		public void StartAnimation(string key)
-		{
-			_animator.SetFloat("Movement", 0f);
-			_animator.SetTrigger(key);
-		}
+        public void StopMoveAnimation()
+        {
+            _animator.SetFloat("Movement", 0f);
+        }
 
-		//Вызывается внутри анимаций для переключения атакующего коллайдера
-		private void AnimationEventCollider_UnityEditor(int isActivity)
-		{
-			_collider.enabled = isActivity != 0;
-		}
+        public void AnimateFastAttack()
+        {
+            var playingAmination = _animator.GetBool("Fast");
+            if (!playingAmination)
+            {
+                StopMoveAnimation();
+                _animator.SetBool("Fast", true);
+            }
+        }
 
-		//Вызывается внутри анимаций для оповещения об окончании анимации
-		private void AnimationEventEnd_UnityEditor(string result)
-		{
-			//В конце анимации смерти особый аргумент и своя логика обработки
-			if (result == "die") Destroy(gameObject);
-			OnEndAnimation.Invoke(null, null);
-		}
-	}
+        public void AnimateStrongAttack()
+        {
+            var playingAmination = _animator.GetBool("Strong");
+            if (!playingAmination)
+            {
+                StopMoveAnimation();
+                _animator.SetBool("Strong", true);
+            }
+        }
+
+        public void AnimateDie()
+        {
+            var playingAmination = _animator.GetBool("Die");
+            if (!playingAmination)
+            {
+                StopMoveAnimation();
+                _animator.SetBool("Die", true);
+            }
+        }
+
+        //Вызывается внутри анимаций для переключения атакующего коллайдера
+        private void AnimationEventCollider_UnityEditor(int isActivity)
+        {
+            _swordCollider.enabled = isActivity != 0;
+            if (isActivity != 0)
+                Debug.Log("Sword collider activated");
+            else
+                Debug.Log("Sword collider deactivated");
+        }
+
+        //Вызывается внутри анимаций для оповещения об окончании анимации
+        private void AnimationEventEnd_UnityEditor(string result)
+        {
+            //В конце анимации смерти особый аргумент и своя логика обработки
+            if (result == "die") {
+                Destroy(gameObject);
+            };
+            OnEndAnimation.Invoke(null, null);
+        }
+
+    }
 }

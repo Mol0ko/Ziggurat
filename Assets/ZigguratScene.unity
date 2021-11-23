@@ -2800,9 +2800,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96740befd016405e94c72e1ede85083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _armyType: 0
+  _unitModel:
+    State: 0
+    ArmyType: 0
+    HP: 50
+    Speed: 5.32
+    FastAttackDamage: 10
+    StrongAttackDamage: 20
+    CritChance: 0.501
+    FastStrongAttackRatio: 0.275
   _unitPrefab: {fileID: 7973307358779964746, guid: 1be16647de1030a4c95a6925ba05db92,
     type: 3}
+  _createUnitIntervalSeconds: 5
   _allUnitsManager: {fileID: 749076629}
   _centerObject: {fileID: 1867097315}
 --- !u!65 &1010354913
@@ -4392,9 +4401,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96740befd016405e94c72e1ede85083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _armyType: 2
+  _unitModel:
+    State: 0
+    ArmyType: 2
+    HP: 70
+    Speed: 1
+    FastAttackDamage: 10
+    StrongAttackDamage: 25
+    CritChance: 0.295
+    FastStrongAttackRatio: 0.315
   _unitPrefab: {fileID: 7973307358779964746, guid: 1be16647de1030a4c95a6925ba05db92,
     type: 3}
+  _createUnitIntervalSeconds: 5
   _allUnitsManager: {fileID: 749076629}
   _centerObject: {fileID: 1867097315}
 --- !u!65 &1617742200
@@ -5599,9 +5617,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a96740befd016405e94c72e1ede85083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _armyType: 1
+  _unitModel:
+    State: 0
+    ArmyType: 1
+    HP: 40
+    Speed: 7.71
+    FastAttackDamage: 7
+    StrongAttackDamage: 14
+    CritChance: 0.861
+    FastStrongAttackRatio: 0.601
   _unitPrefab: {fileID: 7973307358779964746, guid: 1be16647de1030a4c95a6925ba05db92,
     type: 3}
+  _createUnitIntervalSeconds: 3
   _allUnitsManager: {fileID: 749076629}
   _centerObject: {fileID: 1867097315}
 --- !u!65 &2096191720

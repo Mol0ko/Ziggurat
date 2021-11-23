@@ -4,8 +4,10 @@ namespace Ziggurat
 {
     public class Unit : MonoBehaviour
     {
+        #region SerializeField
+
         [SerializeField]
-        private Animator _animator;
+        private UnitEnvironment _unitEnvironment;
         [SerializeField]
         private SkinnedMeshRenderer _meshRender;
         [SerializeField]
@@ -14,27 +16,24 @@ namespace Ziggurat
         private Material _greenMaterial;
         [SerializeField]
         private Material _blueMaterial;
-        [SerializeField, Range(1f, 15f)]
-        private float _speed;
 
-        public ArmyType ArmyType { get; private set; } = ArmyType.red;
+        #endregion
+
+        public UnitModel Model { get; private set; }
         private IUnitOpponentManager _opponentManager;
-        private Unit _opponent;
+        public Unit Opponent { get; private set; }
         private Transform _defaultMoveTarget;
-        private bool _moving = false;
-        private bool _fighting = false;
 
-        public void SetData(ArmyType armyType, Transform defaultMoveTarget, IUnitOpponentManager opponentManager)
+        public void SetData(UnitModel model, Transform defaultMoveTarget, IUnitOpponentManager opponentManager)
         {
-            _speed = 4f;
-            ArmyType = armyType;
+            Model = model;
             _defaultMoveTarget = defaultMoveTarget;
             _opponentManager = opponentManager;
         }
 
         private void Start()
         {
-            switch (ArmyType)
+            switch (Model.ArmyType)
             {
                 case ArmyType.red:
                     _meshRender.material = _redMaterial;
@@ -46,60 +45,72 @@ namespace Ziggurat
                     _meshRender.material = _blueMaterial;
                     break;
             };
-
-            StartMoveTo(_defaultMoveTarget);
+            Model.State = UnitState.Move;
+            _unitEnvironment.AnimateMoveTo(_defaultMoveTarget);
         }
 
         private void Update()
         {
-            if (_moving && !_fighting)
+            if (Model.State == UnitState.Dead)
+                return;
+
+            if (Model.HP <= 0 && Model.State != UnitState.Dead)
             {
-                var step = _speed * Time.deltaTime;
-                var moveTarget = _opponent != null ? _opponent.transform : _defaultMoveTarget;
+                Model.State = UnitState.Dead;
+                _unitEnvironment.OnEndAnimation += OnEndDieAnimation;
+                _unitEnvironment.AnimateDie();
+                return;
+            }
+
+            if (Model.State == UnitState.Move)
+            {
+                var step = Model.Speed * Time.deltaTime;
+                var moveTarget = Opponent != null ? Opponent.transform : _defaultMoveTarget;
                 transform.position = Vector3.MoveTowards(transform.position, moveTarget.position, step);
             }
 
-            if (_opponent == null)
+            if (Opponent == null)
             {
                 var distanceToCenter = transform.position - _defaultMoveTarget.transform.position;
                 if (distanceToCenter.magnitude < 25)
                 {
-                    _opponent = _opponentManager.GetNextOpponentFor(this);
-                    StartMoveTo(_opponent.transform);
+                    Opponent = _opponentManager.GetNextOpponentFor(this);
+                    if (Opponent != null)
+                        _unitEnvironment.AnimateMoveTo(Opponent.transform);
                 }
             }
-            else
+            else if (Model.State != UnitState.FastAttack)
             {
-                var distanceToOpponent = transform.position - _opponent.transform.position;
+                var distanceToOpponent = transform.position - Opponent.transform.position;
                 if (distanceToOpponent.magnitude < 1.5)
-                    FastAttack();
+                {
+                    Model.State = UnitState.FastAttack;
+                    AttackOpponent();
+                }
                 else
-                    StartMoveTo(_opponent.transform);
+                {
+                    Model.State = UnitState.Move;
+                    _unitEnvironment.AnimateMoveTo(Opponent.transform);
+                }
             }
         }
 
-        private void StartMoveTo(Transform target)
+        private void AttackOpponent()
         {
-            transform.LookAt(target);
-            _moving = true;
-            _animator.SetFloat("Movement", 0.5f);
+            _unitEnvironment.OnEndAnimation += OnEndAttackAnimation;
+            _unitEnvironment.AnimateFastAttack();
         }
 
-        private void StopMove()
+        private void OnEndAttackAnimation(object sender, System.EventArgs e)
         {
-            _moving = false;
-            _animator.SetFloat("Movement", 0f);
+            _unitEnvironment.OnEndAnimation -= OnEndAttackAnimation;
+            Model.State = UnitState.Idle;
         }
 
-        private void FastAttack()
+        private void OnEndDieAnimation(object sender, System.EventArgs e)
         {
-            var playingFastAttackAmination = _animator.GetBool("Fast");
-            if (!playingFastAttackAmination)
-            {
-                StopMove();
-                _fighting = true;
-                _animator.SetBool("Fast", true);
-            }
+            _unitEnvironment.OnEndAnimation -= OnEndDieAnimation;
+            _opponentManager.OnUnitDied(this);
         }
     }
 }

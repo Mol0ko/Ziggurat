@@ -9,9 +9,11 @@ namespace Ziggurat
     public class Ziggurat : MonoBehaviour
     {
         [SerializeField]
-        private ArmyType _armyType;
+        private UnitModel _unitModel;
         [SerializeField]
         private GameObject _unitPrefab;
+        [SerializeField]
+        private int _createUnitIntervalSeconds = 5;
         [SerializeField]
         private AllUnitsManager _allUnitsManager;
         [SerializeField]
@@ -29,9 +31,9 @@ namespace Ziggurat
                 var unitObject = Instantiate(_unitPrefab, transform);
                 unitObject.transform.localPosition = new Vector3(0, 10, 0);
                 var unitComponent = unitObject.GetComponent<Unit>();
-                unitComponent.SetData(_armyType, _centerObject, _allUnitsManager);
+                unitComponent.SetData(_unitModel.Copy(), _centerObject, _allUnitsManager);
                 _allUnitsManager.OnCreateUnit(unitComponent);
-                yield return new WaitForSeconds(3);
+                yield return new WaitForSeconds(_createUnitIntervalSeconds);
             }
         }
     }

@@ -13,7 +13,7 @@ namespace Ziggurat
     public interface IUnitOpponentManager
     {
         Unit GetNextOpponentFor(Unit seekingUnit);
-        void OnAttacked(Unit targetUnit, bool strong);
+        void OnUnitDied(Unit unit);
     }
 
     public class AllUnitsManager : MonoBehaviour, IUnitCreationObserver, IUnitOpponentManager
@@ -24,7 +24,7 @@ namespace Ziggurat
 
         public void OnCreateUnit(Unit unit)
         {
-            switch (unit.ArmyType)
+            switch (unit.Model.ArmyType)
             {
                 case ArmyType.red:
                     _redUnits.Add(unit);
@@ -36,13 +36,13 @@ namespace Ziggurat
                     _blueUnits.Add(unit);
                     break;
             }
-            Debug.Log("Unit added: " + unit.ArmyType);
+            Debug.Log("Unit added:\n" + unit.Model.ToString());
         }
 
         public Unit GetNextOpponentFor(Unit seekingUnit)
         {
             var unitsForSeek = new List<Unit>();
-            switch (seekingUnit.ArmyType)
+            switch (seekingUnit.Model.ArmyType)
             {
                 case ArmyType.red:
                     unitsForSeek.AddRange(_greenUnits);
@@ -61,13 +61,24 @@ namespace Ziggurat
             {
                 var distance = seekingUnit.transform.position - unit.transform.position;
                 return distance.magnitude;
-            }).First();
+            }).FirstOrDefault();
             return opponent;
         }
 
-        public void OnAttacked(Unit targetUnit, bool strong)
+        public void OnUnitDied(Unit unit)
         {
-            throw new NotImplementedException();
+            switch (unit.Model.ArmyType)
+            {
+                case ArmyType.red:
+                    _redUnits.Remove(unit);
+                    break;
+                case ArmyType.green:
+                    _greenUnits.Remove(unit);
+                    break;
+                case ArmyType.blue:
+                    _blueUnits.Remove(unit);
+                    break;
+            }
         }
     }
 }
