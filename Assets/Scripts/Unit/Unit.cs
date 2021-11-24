@@ -29,6 +29,22 @@ namespace Ziggurat
             Model = model;
             _defaultMoveTarget = defaultMoveTarget;
             _opponentManager = opponentManager;
+        }        
+        
+        public void UpdateUnitParams(
+            float hp,
+            float speed,
+            float fastAttackDamage,
+            float strongAttackDamage,
+            float critChance,
+            float fastStrongAttackRatio)
+        {
+            Model.HP = hp;
+            Model.Speed = speed;
+            Model.FastAttackDamage = fastAttackDamage;
+            Model.StrongAttackDamage = strongAttackDamage;
+            Model.CritChance = critChance;
+            Model.FastStrongAttackRatio = fastStrongAttackRatio;
         }
 
         private void Start()

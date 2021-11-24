@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 namespace Ziggurat
 {
-    public class Panel : MonoBehaviour
+    public class UnitPanel : MonoBehaviour
     {
         [SerializeField]
-        private Ziggurat _selectedZiggurat;
+        private Unit _selectedUnit;
         [SerializeField]
         private Text _armyTypeText;
         [SerializeField]
@@ -25,14 +25,14 @@ namespace Ziggurat
         private GameObject _uiBlocker;
 
         private bool opened = false;
-        private float _closedXPosition = -138f;
-        private float _openedXPosition = 138f;
+        private float _closedXPosition = 1237f;
+        private float _openedXPosition = 963f;
         private float lerpTimeElapsed = 0.7f;
         private float lerpDuration = 0.7f;
 
         private void Start()
         {
-            OnZigguratSelected();
+            OnUnitSelected();
         }
 
         void Update()
@@ -55,13 +55,13 @@ namespace Ziggurat
                 if (Physics.Raycast(ray, out hit, 100))
                 {
                     var selectedObject = hit.transform.gameObject;
-                    if (selectedObject.name == "Gate_Red" || selectedObject.name == "Gate_Green" || selectedObject.name == "Gate_Blue")
+                    if (selectedObject.name.Contains("RPGHeroPolyart"))
                     {
-                        _selectedZiggurat = selectedObject.GetComponent<Ziggurat>();
-                        OnZigguratSelected();
+                        _selectedUnit = selectedObject.GetComponent<Unit>();
+                        OnUnitSelected();
                         if (!opened)
                             OpenClose();
-                        Debug.Log("Select Ziggurat: " + _selectedZiggurat.UnitModel.ArmyType.ToString());
+                        Debug.Log("Select unit: " + _selectedUnit.Model.ArmyType.ToString());
                     }
                 }
             }
@@ -82,7 +82,7 @@ namespace Ziggurat
             var strongAttackDamage = Mathf.Max(0.1f, float.Parse(_strongAttackInput.text));
             var critChance = Mathf.Min(1f, Mathf.Max(0f, float.Parse(_critChanceInput.text)));
             var fastStrongAttackRatio = Mathf.Min(1f, Mathf.Max(0f, float.Parse(_fastStrongAttackRatioInput.text)));
-            _selectedZiggurat?.UpdateUnitParams(
+            _selectedUnit?.UpdateUnitParams(
                 hp,
                 speed,
                 fastAttackDamage,
@@ -93,11 +93,11 @@ namespace Ziggurat
             OpenClose();
         }
 
-        private void OnZigguratSelected()
+        private void OnUnitSelected()
         {
-            if (_selectedZiggurat != null)
+            if (_selectedUnit != null)
             {
-                var unitModel = _selectedZiggurat.UnitModel;
+                var unitModel = _selectedUnit.Model;
                 _armyTypeText.text = unitModel.ArmyType.ToString();
                 _hpInput.text = unitModel.HP.ToString();
                 _speedInput.text = unitModel.Speed.ToString();
