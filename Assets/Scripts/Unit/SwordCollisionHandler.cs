@@ -9,7 +9,7 @@ namespace Ziggurat
 
         private void OnCollisionEnter(Collision other)
         {
-            if (GameObject.ReferenceEquals(_owner.Opponent.gameObject, other.gameObject))
+            if (_owner.gameObject != null && GameObject.ReferenceEquals(_owner.Opponent.gameObject, other.gameObject))
                 ApplyAttackToOpponent();
         }
 

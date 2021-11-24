@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -19,6 +18,11 @@ namespace Ziggurat
         [SerializeField]
         private Transform _centerObject;
 
+        public UnitModel UnitModel
+        {
+            get => _unitModel.Copy();
+        }
+
         private void Start()
         {
             StartCoroutine(UnitGeneration());
@@ -35,6 +39,22 @@ namespace Ziggurat
                 _allUnitsManager.OnCreateUnit(unitComponent);
                 yield return new WaitForSeconds(_createUnitIntervalSeconds);
             }
+        }
+
+        public void UpdateUnitParams(
+            float hp,
+            float speed,
+            float fastAttackDamage,
+            float strongAttackDamage,
+            float critChance,
+            float fastStrongAttackRatio)
+        {
+            _unitModel.HP = hp;
+            _unitModel.Speed = speed;
+            _unitModel.FastAttackDamage = fastAttackDamage;
+            _unitModel.StrongAttackDamage = strongAttackDamage;
+            _unitModel.CritChance = critChance;
+            _unitModel.FastStrongAttackRatio = fastStrongAttackRatio;
         }
     }
 }

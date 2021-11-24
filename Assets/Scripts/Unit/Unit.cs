@@ -72,7 +72,7 @@ namespace Ziggurat
             if (Opponent == null)
             {
                 var distanceToCenter = transform.position - _defaultMoveTarget.transform.position;
-                if (distanceToCenter.magnitude < 25)
+                if (distanceToCenter.magnitude < 35)
                 {
                     Opponent = _opponentManager.GetNextOpponentFor(this);
                     if (Opponent != null)
